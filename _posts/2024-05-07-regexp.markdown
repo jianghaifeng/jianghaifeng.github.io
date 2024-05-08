@@ -1,0 +1,20 @@
+---
+layout: post
+title:  "regexp"
+date:   2024-05-01 18:29:14 +0800
+categories: tech learning
+---
+
+1. /[abcde]/  
+character class 字符组： 由一对方括号和方括号内的字符组成，匹配的字符位置为字符组中任意一个字符  
+例如 /[abcde]/ 会匹配到 this is <font color=red>a</font>n example   
+字符组内字符的摆放顺序是任意的，也可以允许重复  
+字符组后面添加其他字符，会依次匹配  
+例如 /[abcde]mp/会匹配到 this is an ex<font color=red>amp</font>le 
+
+
+
+
+
+
+
