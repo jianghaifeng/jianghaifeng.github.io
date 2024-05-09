@@ -5,6 +5,11 @@ date:   2024-05-07 18:29:14 +0800
 categories: tech learning
 ---
 
+<style>
+    rb {background: red}
+</style>
+
+
 ### character class 字符组  
 
 1. 由一对方括号和方括号内的字符组成，匹配的字符位置为字符组中任意一个字符  
@@ -103,4 +108,83 @@ this is my first t<font style="background: red">ee</font>xt.
 1. 非捕获分组  
 由于括号内的内容都会被正则表达式记录下来，以供后面反向引用，对于不需要捕获的分组，在括号内添加`?:`，可以把该分组标记为非捕获分组，该分组匹配的内容不会被保留， 例如  
 `/^\d{7}(?:\d{3})/`匹配 <font style="background: red">0123456789</font> 其中 789 就不会被记录下来，无法反向引用
+
+
+### Assertion 断言
+1. 断言是添加在正则表达式中的一些额外规则，断言不匹配任何文本，但是它决定了组成正则的各类子模式在目标文本中能够实际匹配的位置，例如：  
+`/is/g` 这个结尾的`g`表示global，即全局，要求找到所有的匹配子串，用这个正则表达式去匹配的结果如下：  
+th<font style="background: red">is</font> <font style="background: red">is</font> an example  
+通过在`is`的两侧加上`\b`，我们得到`/\bis\b/g`，我们进一步约束了该正则的匹配要求，这里的`b`指的是boundary，是一种单词边界的断言，表示仅匹配两侧都是单词边界的`is`，用`/\bis\b/g`匹配可以得到以下结果:  
+this <font style="background: red">is</font> an example  
+单词边界要求必须且仅某一侧出现`\w`可匹配的字符
+与前面的简记法类似的，`\B`和`\b`为互补关系，表示匹配非单词边界，例如，用`/\Bis/g`去匹配下面文本的结果：  
+Th<font style="background: red">is</font> is not an issue.  
+
+1. 匹配文本的起始位置和结尾位置
+`/^\w+/g` 这个正则匹配的以任意的字母，数字或下划线开头的单词，例如：  
+a) <font style="background: red">hello</font>, world  
+b) <font style="background: red">_hello</font>, world  
+c) <font style="background: red">123</font> lets go  
+`/\w+\.$/g` 相应的，可以使用`$`匹配结尾位置：  
+a) hello, <font style="background: red">world.</font>  
+在开头添加`(?m)`为后续正则启用多行模式，例如`/(?m)^\w+/g`匹配结果如下：  
+<font style="background: red">hello</font>, this is  
+<font style="background: red">my</font> first  
+<font style="background: red">example</font>, but it  
+<font style="background: red">is</font> not the last.  
+`(?m)\w+\.?$`匹配的结果如下：  
+hello, this <font style="background: red">is</font>  
+my <font style="background: red">first</font>  
+example, but <font style="background: red">is</font>  
+is not the <font style="background: red">last.</font>  
+除了`^`和`$`外，还有几种常用的匹配模式：  
+`\A` 永远匹配文本的开头  
+`\z` 永远匹配文本的末尾  
+`\Z` 等同于默认模式下的`$`  
+
+1. 环视
+`/\w+(?=st)/g`这个正则中`(?=)`是一个肯定顺序环视，表示匹配的`\w+`这个子模式所匹配内容的紧邻右侧，所必须满足的要求:   
+hello, this is   
+my <rb>fir</rb>st  
+example, but it  
+is not the <rb>la</rb>st.  
+`/\b\w{3}(?!s)/g`匹配长度为3个字符，且左侧是单词边界并且右侧不与`s`相邻的内容：  
+<rb>hel</rb>lo, this is  
+my first  
+<rb>exa</rb>mple, <rb>but</rb> it  
+is <rb>not</rb> <rb>the</rb> <rb>las</rb>t.
+除了肯定顺序环视和否定顺序环视，还有肯定逆序环视和否定逆序环视，我们通过下面的例子来理解他们的规则：  
+肯定正向环视：`(?=...)`，例如：  
+`/(?=\d{3})` 会在这些位置匹配 |1|2|345  
+否定正向环视：`(?!...)`，例如：   
+`/(?!\d{3})` 会在这些位置匹配 123|4|5|  
+肯定逆向环视：`(?<=...)`，例如：   
+`/(?=\d{3})` 会在这些位置匹配 123|4|5|  
+否定逆向环视：`(?<!...)`，例如：  
+`/(?=\d{3})` 会在这些位置匹配 |1|2|345  
+几个例子:  
+`/(?<=ba)(na)\1/`  
+I love ba<rb>nana</rb>s.
+
+
+### match mode 匹配模式
+1. 前面我们使用过`(?m)`来表示多行模式，类似的，`(?s)`表示单行模式，在这种模式下，目标文本的所有内容仿佛被归到同一行里，换行符可以作为普通字符被点号匹配，如`/(?s)^.+/g`下面的例子：  
+<rb>this is my  
+first example, but it  
+is not the last one.</rb>  
+而 `/^.+/` 的匹配结果是：  
+<rb>this is my</rb>  
+first example, but it  
+is not the last one.  
+`/(?s)^.+/`这个模式也被称为DotAll模式  
+
+1. 还有一个`/(?!)th/g`，其中`(?!)`表示不区分大小写:  
+<rb>Th</rb>is is my  
+first example, but it  
+is not <rb>th</rb>e last one.
+
+1. 正则表达式还可以添加注释，如以下的注释称为内联注释： 
+`/(?i)(?#some comment)th/g`
+
+
 
