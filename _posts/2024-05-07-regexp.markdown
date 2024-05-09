@@ -81,11 +81,10 @@ this is my first example 这句话由5个单词构成，如果我们要将两个
 
 1. 作用范围
 我们用这个正则表达式去匹配以下几个文本  
-
-    <font style="background: red">filename.php</font>    
-    <font style="background: red">filename.js</font>    
-    <font style="background: red">filename</font>   
-    <font style="background: red">filename</font>.java    
+a) <font style="background: red">filename.php</font>    
+b) <font style="background: red">filename.js</font>    
+c) <font style="background: red">filename</font>   
+d) <font style="background: red">filename</font>.java    
 最后一个不是我们想要的，原因在于我们没有限定正则需要在目标文本上的作用范围，因此，它会优先寻找在目标文本中，可以匹配的某个子集。  
 通过适当修改，我们可以限定正则的作用范围：  
 `/^[a-zA-Z_]\w{0,254}(\.php|\.js|\.cc)?$/`  
