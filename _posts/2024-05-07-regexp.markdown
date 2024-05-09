@@ -13,17 +13,17 @@ categories: tech learning
 ### character class 字符组  
 
 1. 由一对方括号和方括号内的字符组成，匹配的字符位置为字符组中任意一个字符  
-例如 `/[abcde]/` 会匹配到 this is <font style="background: red">a</font>n example   
+例如 `/[abcde]/` 会匹配到 this is <rb>a</rb>n example   
 字符组内字符的摆放顺序是任意的，也可以允许重复  
 字符组后面添加其他字符，会依次匹配  
-例如 `/[abcde]mp/` 会匹配到 this is an ex<font style="background: red">amp</font>le 
+例如 `/[abcde]mp/` 会匹配到 this is an ex<rb>amp</rb>le 
 
 1. 范围表示法  
 例如，要匹配 this is the 1st example 中的数字，可以用 /[0123456789]/ 去匹配
 如果要匹配任意一个小写字母，需要把26个字母全部写一遍就比较麻烦，这里，有一种简单的范围表示法，使用连字符把要匹配的字符连起来，左右分别表示开始和结束的字符，例如  
 `/[0-9]/` 和 `/[a-z]/` 分别表示匹配任意的数字和小写字母  
 每一个独立的范围表示法都对应着一串特定字符，它们也可以连起来使用，例如 `/[a-zA-Z]/` 就可以匹配所有大小写字符  
-那如果我们要匹配减号呢，我们可以把连字符放到字符组的最前面或者最后面，例如 `/[0-9-]/` 或者 `/[-0-9]/` 均可以匹配到 the substract operator is <font style="background: red">-</font> and the add operator is +  
+那如果我们要匹配减号呢，我们可以把连字符放到字符组的最前面或者最后面，例如 `/[0-9-]/` 或者 `/[-0-9]/` 均可以匹配到 the substract operator is <rb>-</rb> and the add operator is +  
 还有一种方式就是转义，例如 `/[0\-9]/`  
 
 1. 简记法  
@@ -41,15 +41,15 @@ space: `\s` 表示任意空格字符，等同于`[\t\r\n\v\f]`
 字符组以`^`符号开头，表示将没有在当前字符组中的字符作为匹配字符，例如`/[^0-9]/`就和`\D`表示相同的含义
 
 ### Quantifier 量词  
-1. 量词规定了正则中某个子模式的匹配次数，例如我们知道一个字符组仅能匹配文本中的一个字符，例如 `/[is]/` 能匹配 Th<font style="background: red">i</font>s is the first example  
-我们可以在后面添加一个量词来匹配多个字符，例如`/[is]{2}/`可以匹配到Th<font style="background: red">is</font> is the first example  
+1. 量词规定了正则中某个子模式的匹配次数，例如我们知道一个字符组仅能匹配文本中的一个字符，例如 `/[is]/` 能匹配 Th<rb>i</rb>s is the first example  
+我们可以在后面添加一个量词来匹配多个字符，例如`/[is]{2}/`可以匹配到Th<rb>is</rb> is the first example  
 通过在紧挨着字符组这个子匹配模式的后面添加一个用大括号包裹的具体数组，便可以规定字符组需要在文本中被连续匹配的次数，该形式由三种变体：  
 `{m}` 只能出现m次
 `{m, n}` 至少出现m次，最多出现n次
 `{m, }` 至少出现m次
-量词的一般形式写法使得大括号在正则表达式中有了特殊含义，成为了元字符，例如 `\w{3}` 匹配了 <font style="background: red">Thi</font>s is my first{3} example  
+量词的一般形式写法使得大括号在正则表达式中有了特殊含义，成为了元字符，例如 `\w{3}` 匹配了 <rb>Thi</rb>s is my first{3} example  
 如果想匹配文本中的大括号，我们可以转义两个大括号中的任意一个，这样，正则表达式找不到对应的量词形式，便会将大括号作为普通字符去匹配，例如
-`\w\{3}` 和 `\w{3\}`都会匹配 This is my fiir<font style="background: red">r{3}</font> example
+`\w\{3}` 和 `\w{3\}`都会匹配 This is my fiir<rb>r{3}</rb> example
 
 1. 同范围表示法类似，对于某些常见的量词，正则表达式也提供了相应的简记法可以使用，例如 `/colou?rs?` 这里的问号表示前面的匹配出现了0次或1次，这个表达式可以匹配 color, colour, colors, colours  
 量词简记法有下面几个：  
@@ -61,10 +61,10 @@ space: `\s` 表示任意空格字符，等同于`[\t\r\n\v\f]`
 点号可用于匹配除换行符以外的任意字符，例如`/.*/` 和 `/[\s\S]*` 的区别在于前者不包含换行符。
 
 1. 贪婪和非贪婪
-this is my first example 这句话由5个单词构成，如果我们要将两个空格之间的单词匹配出来，我们会用 `\s.*\s` 来匹配，可是我们发现，它匹配的是this<font style="background: red"> is my first </font>example  
+this is my first example 这句话由5个单词构成，如果我们要将两个空格之间的单词匹配出来，我们会用 `\s.*\s` 来匹配，可是我们发现，它匹配的是this<rb> is my first </rb>example  
 这是因为在默认情况下，所有的量词均为贪婪量词，这意味着，它们会尽可能的进行匹配  
 通过在原有量词的后面添加一个问号，我们可以把原来的贪婪量词变为懒惰量词，例如
-`\s.*?\s` 就可以匹配 this<font style="background: red"> is </font>my first example  
+`\s.*?\s` 就可以匹配 this<rb> is </rb>my first example  
 顾名思义，懒惰量词会让被标记的子模式仅保持可能的最小匹配  
 
 ### 括号 parentheses  
@@ -86,10 +86,10 @@ this is my first example 这句话由5个单词构成，如果我们要将两个
 
 1. 作用范围
 我们用这个正则表达式去匹配以下几个文本  
-a) <font style="background: red">filename.php</font>    
-b) <font style="background: red">filename.js</font>    
-c) <font style="background: red">filename</font>   
-d) <font style="background: red">filename</font>.java    
+a) <rb>filename.php</rb>    
+b) <rb>filename.js</rb>    
+c) <rb>filename</rb>   
+d) <rb>filename</rb>.java    
 最后一个不是我们想要的，原因在于我们没有限定正则需要在目标文本上的作用范围，因此，它会优先寻找在目标文本中，可以匹配的某个子集。  
 通过适当修改，我们可以限定正则的作用范围：  
 `/^[a-zA-Z_]\w{0,254}(\.php|\.js|\.cc)?$/`  
@@ -101,48 +101,48 @@ d) <font style="background: red">filename</font>.java
 `/\w\w/`表示相邻的两个字符，但无法确定它们之间的关系  
 `/(aa|bb|cc|dd...)/` 将相同字符的可能全部列举出来，这个可以达到目的但是过于繁琐
 `/(\w)\1/` 借助反向引用，可以轻松实现，反向引用，顾名思义，表示引用之前括号分组内，已经成功匹配的文本内容，这里 \1 就表示引用第1个分组已匹配的内容  
-this is my first t<font style="background: red">ee</font>xt.  
+this is my first t<rb>ee</rb>xt.  
 注意，分组的编号是按照开括号的顺序来递增的，例如
 `/(((\d)-(\d))-(\d))/`
 
 1. 非捕获分组  
 由于括号内的内容都会被正则表达式记录下来，以供后面反向引用，对于不需要捕获的分组，在括号内添加`?:`，可以把该分组标记为非捕获分组，该分组匹配的内容不会被保留， 例如  
-`/^\d{7}(?:\d{3})/`匹配 <font style="background: red">0123456789</font> 其中 789 就不会被记录下来，无法反向引用
+`/^\d{7}(?:\d{3})/`匹配 <rb>0123456789</rb> 其中 789 就不会被记录下来，无法反向引用
 
 
 ### Assertion 断言
 1. 断言是添加在正则表达式中的一些额外规则，断言不匹配任何文本，但是它决定了组成正则的各类子模式在目标文本中能够实际匹配的位置，例如：  
 `/is/g` 这个结尾的`g`表示global，即全局，要求找到所有的匹配子串，用这个正则表达式去匹配的结果如下：  
-th<font style="background: red">is</font> <font style="background: red">is</font> an example  
+th<rb>is</rb> <rb>is</rb> an example  
 通过在`is`的两侧加上`\b`，我们得到`/\bis\b/g`，我们进一步约束了该正则的匹配要求，这里的`b`指的是boundary，是一种单词边界的断言，表示仅匹配两侧都是单词边界的`is`，用`/\bis\b/g`匹配可以得到以下结果:  
-this <font style="background: red">is</font> an example  
+this <rb>is</rb> an example  
 单词边界要求必须且仅某一侧出现`\w`可匹配的字符
 与前面的简记法类似的，`\B`和`\b`为互补关系，表示匹配非单词边界，例如，用`/\Bis/g`去匹配下面文本的结果：  
-Th<font style="background: red">is</font> is not an issue.  
+Th<rb>is</rb> is not an issue.  
 
 1. 匹配文本的起始位置和结尾位置
 `/^\w+/g` 这个正则匹配的以任意的字母，数字或下划线开头的单词，例如：  
-a) <font style="background: red">hello</font>, world  
-b) <font style="background: red">_hello</font>, world  
-c) <font style="background: red">123</font> lets go  
+a) <rb>hello</rb>, world  
+b) <rb>_hello</rb>, world  
+c) <rb>123</rb> lets go  
 `/\w+\.$/g` 相应的，可以使用`$`匹配结尾位置：  
-a) hello, <font style="background: red">world.</font>  
+a) hello, <rb>world.</rb>  
 在开头添加`(?m)`为后续正则启用多行模式，例如`/(?m)^\w+/g`匹配结果如下：  
-<font style="background: red">hello</font>, this is  
-<font style="background: red">my</font> first  
-<font style="background: red">example</font>, but it  
-<font style="background: red">is</font> not the last.  
+<rb>hello</rb>, this is  
+<rb>my</rb> first  
+<rb>example</rb>, but it  
+<rb>is</rb> not the last.  
 `(?m)\w+\.?$`匹配的结果如下：  
-hello, this <font style="background: red">is</font>  
-my <font style="background: red">first</font>  
-example, but <font style="background: red">is</font>  
-is not the <font style="background: red">last.</font>  
+hello, this <rb>is</rb>  
+my <rb>first</rb>  
+example, but <rb>is</rb>  
+is not the <rb>last.</rb>  
 除了`^`和`$`外，还有几种常用的匹配模式：  
 `\A` 永远匹配文本的开头  
 `\z` 永远匹配文本的末尾  
 `\Z` 等同于默认模式下的`$`  
 
-1. 环视
+1. 环视  
 `/\w+(?=st)/g`这个正则中`(?=)`是一个肯定顺序环视，表示匹配的`\w+`这个子模式所匹配内容的紧邻右侧，所必须满足的要求:   
 hello, this is   
 my <rb>fir</rb>st  
