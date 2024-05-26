@@ -1,0 +1,31 @@
+---
+layout: post
+title:  "楚"
+date:   2024-05-07 18:29:14 +0800
+categories: history
+---
+
+<style>
+    rb {background: red}
+</style>
+
+### tmux 常用操作：  
+
+prefix + c：新建window  
+prefix + &：关闭window  
+prefix + 数字（i）：切换到window#i  
+prefix + n：右边window   
+prefix + b：左边window   
+
+
+prefix + %：左右分割   
+prefix + "：上下分割   
+prefix + z：最大化最小化pane   
+prefix + q（i）：切换到pane#i   
+prefix + 上下左右：在pane之间切换   
+prefix + x：关闭pane   
+
+prefix + d：detach   
+tmux a：attach   
+
+
